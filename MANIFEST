@@ -1,0 +1,10 @@
+Changes
+LICENSE
+MANIFEST
+META.yml
+Makefile.PL
+README
+dist.ini
+eg/eg.pl
+lib/Data/InputMonster/Util/Catalyst.pm
+t/basic.t
