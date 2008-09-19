@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Data::InputMonster::Util::Catalyst;
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 # ABSTRACT: InputMonster sources for common Catalyst sources
 
@@ -26,13 +26,19 @@ sub form_param {
 
 sub body_param {
   my ($self, $field_name) = @_;
-  sub { return $_[1]->req->body_params->{ $field_name }; }
+  sub {
+    my $field_name = defined $field_name ? $field_name : $_[2]{field_name};
+    return $_[1]->req->body_params->{ $field_name };
+  }
 }
 
 
 sub query_param {
   my ($self, $field_name) = @_;
-  sub { return $_[1]->req->query_params->{ $field_name }; }
+  sub {
+    my $field_name = defined $field_name ? $field_name : $_[2]{field_name};
+    return $_[1]->req->query_params->{ $field_name };
+  }
 }
 
 
@@ -60,7 +66,7 @@ Data::InputMonster::Util::Catalyst - InputMonster sources for common Catalyst so
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 DESCRIPTION
 

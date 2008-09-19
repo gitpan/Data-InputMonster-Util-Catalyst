@@ -7,6 +7,6 @@ license: perl
 name: Data-InputMonster-Util-Catalyst
 requires: 
   Carp: 0
-  Data::InputMonster: 0.001
+  Data::InputMonster: 0.005
   Sub::Exporter: 0
-version: 0.001
+version: 0.002
