@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Data::InputMonster::Util::Catalyst;
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 # ABSTRACT: InputMonster sources for common Catalyst sources
 
@@ -20,7 +20,10 @@ use Sub::Exporter -setup => {
 
 sub form_param {
   my ($self, $field_name) = @_;
-  sub { return $_[1]->req->params->{ $field_name }; }
+  sub {
+    my $field_name = defined $field_name ? $field_name : $_[2]{field_name};
+    return $_[1]->req->params->{ $field_name };
+  }
 }
 
 
@@ -45,13 +48,13 @@ sub query_param {
 sub session_entry {
   my ($self, $locator) = @_;
 
-  return sub { $_[1]->session->{$locator} } unless ref $locator;
+  require Data::InputMonster::Util;
+  my $digger = Data::InputMonster::Util->dig($locator);
 
-  require Params::Util;
-  Carp::confess("unhandled argument type for session_entry: $locator")
-    unless Params::Util::_CODELIKE($locator);
-
-  return sub { $locator->( $_[1]->session ) };
+  return sub {
+    my ($monster, $input, $arg) = @_;
+    $monster->$digger($input->session, $arg);
+  };
 }
 
 q{$C IS FOR CATALSYT, THAT'S GOOD ENOUGH FOR ME};
@@ -66,7 +69,7 @@ Data::InputMonster::Util::Catalyst - InputMonster sources for common Catalyst so
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 DESCRIPTION
 
@@ -104,9 +107,8 @@ with the given field name.
 
     my $source = session_entry($locator);
 
-This source will look for an entry in the session for the given locator.  If
-the locator is a string, it is used as a hash key for the session.  If it is a
-code ref, the code is called and passed the session as its first parameter.
+This source will look for an entry in the session for the given locator, using
+the C<dig> utility from L<Data::InputMonster::Util>.
 
 =head1 AUTHOR
 
