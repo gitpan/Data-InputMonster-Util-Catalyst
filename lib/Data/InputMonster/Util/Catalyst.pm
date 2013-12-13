@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Data::InputMonster::Util::Catalyst;
 {
-  $Data::InputMonster::Util::Catalyst::VERSION = '0.004';
+  $Data::InputMonster::Util::Catalyst::VERSION = '0.005';
 }
 # ABSTRACT: InputMonster sources for common Catalyst sources
 
@@ -64,13 +64,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Data::InputMonster::Util::Catalyst - InputMonster sources for common Catalyst sources
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 DESCRIPTION
 
